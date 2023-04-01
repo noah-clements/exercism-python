@@ -31,8 +31,7 @@ def add_missing_stops(route: dict, **stops):
     :param: arbitrary number of stops.
     :return: dict - updated route dictionary.
     """
-    route['stops'] = list(stops.values())
-    return route
+    return {**route, 'stops': list(stops.values())}
 
 
 def extend_route_information(route, more_route_information):
@@ -51,6 +50,5 @@ def fix_wagon_depot(wagons_rows):
     :param wagons_rows: list[list[tuple]] - the list of 3 rows of wagons, represented as (id, color).
     :return: list[list[tuple]] - list of rows of wagons, reorganized so that each color is a column in the row.
     """
-    col1, col2, col3 = zip(*wagons_rows)
-    return [list(col1), list(col2), list(col3)]
+    return [list(row) for row in zip(*wagons_rows)]
 
