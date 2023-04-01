@@ -1,0 +1,3 @@
+
+# Any doc strings (e.g. `"""hello"""` in python) will be counted as comments.
+treat_doc_strings_as_comments = true
