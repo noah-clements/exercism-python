@@ -35,8 +35,8 @@ def check_drinks(drink_name, drink_ingredients):
 
     """
     if ALCOHOLS.intersection(drink_ingredients):
-        return f"{drink_name} Cocktail"
-    return f"{drink_name} Mocktail"     # else case
+        return f'{drink_name} Cocktail'
+    return f'{drink_name} Mocktail'     # else case
 
 
 def categorize_dish(dish_name, dish_ingredients):
@@ -51,18 +51,13 @@ def categorize_dish(dish_name, dish_ingredients):
     All dishes will "fit" into one of the categories imported from `sets_categories_data.py`
 
     """
-    if dish_ingredients <= VEGAN:
-        return f"{dish_name}: VEGAN"
-    if dish_ingredients <= VEGETARIAN:
-        return f"{dish_name}: VEGETARIAN"
-    if dish_ingredients <= PALEO:
-        return f"{dish_name}: PALEO"
-    if dish_ingredients <= KETO:
-        return f"{dish_name}: KETO"
-    if dish_ingredients <= OMNIVORE:
-        return f"{dish_name}: OMNIVORE"
-    pass
-
+    dish = f'{dish_name}: '
+    if dish_ingredients <= VEGAN: dish += 'VEGAN'
+    if dish_ingredients <= VEGETARIAN: dish += 'VEGETARIAN'
+    if dish_ingredients <= PALEO: dish += 'PALEO'
+    if dish_ingredients <= KETO: dish += 'KETO'
+    if dish_ingredients <= OMNIVORE: dish += 'OMNIVORE'
+    return dish
 
 def tag_special_ingredients(dish):
     """Compare `dish` ingredients to `SPECIAL_INGREDIENTS`.
@@ -123,4 +118,3 @@ def singleton_ingredients(dishes, intersection):
     for dish in dishes:
         unique_ingredients ^= dish
     return unique_ingredients - intersection
-
