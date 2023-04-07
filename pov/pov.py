@@ -30,16 +30,17 @@ class Tree:
             except ValueError:
                 continue
             if found_child:
-                current_parent.children.remove(found_child)
-                found_child.children.append(current_parent)
+                current_parent.children.remove(child)
+                child.children.append(current_parent)
                 return found_child
         raise ValueError("Tree could not be reoriented")
 
     def path_to(self, from_node, to_node):
-        pass
+        from_node_tree = self.from_pov(from_node)
+        
 
 if __name__.__eq__("__main__"):
-    tree = Tree("parent", [Tree("a"), Tree("x"), Tree("b"), Tree("c")])
+    tree = Tree("parent", [Tree("a"), Tree('y', [Tree("x")]), Tree("b"), Tree("c")])
     # print(tree)
     print(tree.from_pov("x"))
     # print(tree.path_to("x", "b"))
