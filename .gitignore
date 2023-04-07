@@ -4,3 +4,5 @@ HINTS.md
 *.pyc
 *_test.py
 
+.vscode/launch.json
+.vscode/settings.json
