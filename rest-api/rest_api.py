@@ -34,9 +34,7 @@ class RestAPI:
         if url == '/iou' and payload:
             lender, borrower, amount = self.parse_iou_payload(payload)
             lender.lend(borrower.name, amount)
-            self.users[lender.name] = lender        # update lender
             borrower.borrow(lender.name, amount)
-            self.users[borrower.name] = borrower    # update borrower
             
             return json.dumps({"users": [user.to_json() for user in sorted([lender, borrower])]}, sort_keys=False)
         if url == '/add':
