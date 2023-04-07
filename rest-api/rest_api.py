@@ -56,9 +56,12 @@ class RestAPI:
 class User:
     def __init__(self, name, owes={}, owed_by={}, balance=0.0):
         self.name = name
-        self.owes = owes
-        self.owed_by = owed_by
-        self.balance = balance
+        self.ledger = {}
+        for user, amount in owes.items():
+            self.borrow(user, amount)
+        for user, amount in owed_by.items():
+            self.lend(user, amount)
+        assert self.balance == balance
 
     def __hash__(self):
         return self.name.__hash__()
@@ -73,30 +76,24 @@ class User:
         return f"User({self.to_json()})"
 
     def lend(self, borrower, amount):
-        net_amt = amount
-        if borrower in self.owes:
-            if self.owes[borrower] > amount:
-                self.owes[borrower] -= amount
-                net_amt = 0.0
-            else:
-                net_amt = amount - self.owes[borrower]
-                del self.owes[borrower]
-        if net_amt > 0.0:
-            self.owed_by[borrower] = net_amt
-        self.balance += amount
+        self.ledger[borrower] = self.ledger.get(borrower, 0) + amount
 
     def borrow(self, lender, amount):
-        net_amt = amount
-        if lender in self.owed_by:
-            if self.owed_by[lender] > amount:
-                self.owed_by[lender] -= amount
-                net_amt = 0.0
-            else:
-                net_amt = amount - self.owed_by[lender]
-                del self.owed_by[lender]
-        if net_amt > 0.0:
-            self.owes[lender] = net_amt
-        self.balance -= amount
+        self.ledger[lender] = self.ledger.get(lender, 0) - amount
+
+# Stole property decorators (and ledger) from cmccandless solution
+# https://exercism.org/tracks/python/exercises/rest-api/solutions/cmccandless
+    @property
+    def owes(self):
+        return {user: -amount for user, amount in self.ledger.items() if amount < 0}
+
+    @property
+    def owed_by(self):
+        return {user: amount for user, amount in self.ledger.items() if amount > 0}
+
+    @property
+    def balance(self):
+        return sum(self.ledger.values())
 
     def to_json(self):
         return {
