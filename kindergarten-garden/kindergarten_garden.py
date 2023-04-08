@@ -10,12 +10,9 @@ class Garden:
         "R": "Radishes",
         "V": "Violets",
     }
-    def __init__(self, diagram, students=None):
+    def __init__(self, diagram, students=STUDENTS):
         self.diagram = diagram
-        if not students:
-            self.students = self.STUDENTS
-        else:
-            self.students = sorted(students)
+        self.students = sorted(students)
 
     def plants(self, student):
         pos = self.students.index(student) * 2
