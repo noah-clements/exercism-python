@@ -8,20 +8,23 @@ However the tests for this exercise do not require the data to persist between r
 and I don't know whether the exercism test runner will allow file access (I would expect not).
 '''
 import json
+
+
 class RestAPI:
     def __init__(self, database=None):
         self.users = {}
-        if database:
-            init_users = database["users"]
-            for user in init_users:
-                print(user)
-                print(user["name"])
-                self.users[user['name']] = User(
-                        user["name"],
-                        user["owes"],
-                        user["owed_by"],
-                        user["balance"],
-                    )
+        if not database:
+            return
+        init_users = database["users"]
+        for user in init_users:
+            print(user)
+            print(user["name"])
+            self.users[user['name']] = User(
+                    user["name"],
+                    user["owes"],
+                    user["owed_by"],
+                    user["balance"],
+                )
 
     def get(self, url, payload=None):
         if url == '/users':
@@ -100,4 +103,6 @@ class User:
             "owed_by": self.owed_by,
             "balance": self.balance,
         }
+
+
 
